@@ -2,12 +2,9 @@ import React, { PureComponent } from "react";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
 } from "recharts";
 
 export default class Chart extends PureComponent {
@@ -15,18 +12,18 @@ export default class Chart extends PureComponent {
     let data = [];
     for (let key in this.props.symptoms) {
       let obj = {
-        name: key,
-        count: this.props.symptoms[key],
+        Symptom: key,
+        Count: this.props.symptoms[key],
       };
       data.push(obj);
     }
 
     return (
       <BarChart width={500} height={250} data={data}>
-        <XAxis dataKey="name" />
+        <XAxis dataKey="Symptom" />
         <YAxis />
         <Tooltip />
-        <Bar dataKey="count" fill="orange" />
+        <Bar dataKey="Count" fill="orange" />
       </BarChart>
     );
   }

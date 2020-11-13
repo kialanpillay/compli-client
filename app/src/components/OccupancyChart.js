@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
-import { PieChart, Pie, Sector, Cell } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 
-const COLORS = ["#0088FE", "rgb(67,169,40)", "#FFBB28", "#FF8042"];
+const COLORS = ["#0088FE", "rgb(67,169,40)"];
 
 export default class OccupancyChart extends PureComponent {
   render() {

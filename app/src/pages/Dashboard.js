@@ -32,6 +32,7 @@ export default class Dashboard extends React.Component {
         Vomiting: 0,
         Diarrhoea: 0,
         Fatigue: 0,
+        Weak: 0,
       },
       avgTemp: 0,
       occupancy: 0,
@@ -75,7 +76,8 @@ export default class Dashboard extends React.Component {
     const symptoms = this.state.symptoms;
 
     records.forEach((element) => {
-      const data = element.slice(6, -1);
+      const data = element.slice(6);
+      console.log(data)
       Object.keys(symptoms).forEach((key, idx) => {
         symptoms[key] += data[idx];
       });
