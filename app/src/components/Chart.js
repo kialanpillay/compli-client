@@ -1,33 +1,36 @@
 import React, { PureComponent } from "react";
 import {
+  ResponsiveContainer,
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
 } from "recharts";
 
 export default class Chart extends PureComponent {
   render() {
-    let data = [];
-    for (let key in this.props.symptoms) {
-      let obj = {
-        name: key,
-        count: this.props.symptoms[key],
+    const data = Object.keys(this.props.symptoms).map((key) => {
+      return {
+        Symptom: key,
+        Count: this.props.symptoms[key],
       };
-      data.push(obj);
-    }
+    });
 
     return (
-      <BarChart width={500} height={250} data={data}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="count" fill="orange" />
-      </BarChart>
+      <div style={{ overflow: "scroll" }}>
+        <BarChart
+          width={450}
+          height={250}
+          data={data}
+          margin={{ top: 50, right: 0, left: -20, bottom: 0 }}
+        >
+          <XAxis dataKey="Symptom" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="Count" fill="orange" />
+        </BarChart>
+      </div>
     );
   }
 }
