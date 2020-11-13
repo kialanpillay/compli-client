@@ -77,7 +77,6 @@ export default class Dashboard extends React.Component {
 
     records.forEach((element) => {
       const data = element.slice(6);
-      console.log(data)
       Object.keys(symptoms).forEach((key, idx) => {
         symptoms[key] += data[idx];
       });
