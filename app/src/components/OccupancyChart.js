@@ -10,7 +10,7 @@ export default class OccupancyChart extends PureComponent {
       { name: "Available", value: 50 - this.props.data.occupancy },
     ];
     return (
-      <PieChart width={300} height={100}>
+      <PieChart width={500} height={100}>
         <Pie
           data={data}
           cx={100}
