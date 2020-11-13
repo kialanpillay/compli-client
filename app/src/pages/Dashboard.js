@@ -15,6 +15,7 @@ Date.prototype.subtractDays = function (date, days) {
   return this;
 };
 
+// eslint-disable-next-line
 Date.prototype.sameDay = function (d) {
   return (
     this.getFullYear() === d.getFullYear() &&
@@ -29,7 +30,8 @@ export default class Dashboard extends React.Component {
     this.state = {
       records: [],
       filtered: [],
-      risk: [],
+      predictedRisk: [],
+      predictedOccupancy: 1,
       profile: {
         Low: 0,
         Med: 0,
@@ -85,7 +87,8 @@ export default class Dashboard extends React.Component {
       .then((response) => response.json())
       .then((response) => {
         this.setState({
-          risk: response.risk.sort().reverse(),
+          predictedRisk: response.risk.sort().reverse(),
+          predictedOccupancy: response.occupancy,
         });
       })
       .then(() => this.processPredictions())
@@ -121,13 +124,13 @@ export default class Dashboard extends React.Component {
   };
 
   processPredictions = () => {
-    const sum = _.sum(this.state.risk);
+    const risk = this.state.predictedRisk;
+    const sum = _.sum(risk);
     const profile = {
-      Low: (this.state.risk[0] / sum) * 100,
-      Med: (this.state.risk[1] / sum) * 100,
-      High: (this.state.risk[2] / sum) * 100,
+      Low: (risk[0] / sum) * 100,
+      Med: (risk[1] / sum) * 100,
+      High: (risk[2] / sum) * 100,
     };
-    console.log(profile);
     this.setState({ profile: profile });
   };
 
@@ -140,7 +143,7 @@ export default class Dashboard extends React.Component {
               <h1 style={{ fontSize: "4rem" }}>Dashboard</h1>
             </Col>
           </Row>
-          {this.state.records.length == 0 ? (
+          {this.state.records.length === 0 ? (
             <Spinner animation="border" role="status"></Spinner>
           ) : (
             <div>
@@ -222,7 +225,7 @@ export default class Dashboard extends React.Component {
                       <Card.Title>Daily Symptoms</Card.Title>
                       <Row className="justify-content-center">
                         <Col md="auto" sm="auto">
-                          {this.state.filtered.length != 0 ? (
+                          {this.state.filtered.length !== 0 ? (
                             <Chart symptoms={this.state.symptoms} />
                           ) : null}
                         </Col>
@@ -251,11 +254,18 @@ export default class Dashboard extends React.Component {
                 <Col md={3}>
                   <Card style={{ height: "20rem", marginBottom: "1rem" }}>
                     <Card.Body>
-                      <Card.Title>Predicted Capacity</Card.Title>
-                      <Card.Text>
-                        Some quick example text to build on the card title and
-                        make up the bulk of the card's content.
-                      </Card.Text>
+                      <Card.Title>Predicted Occupancy</Card.Title>
+                      <Card.Subtitle className="mb-2 text-muted">
+                        {(this.state.predictedOccupancy * 100) / 50 < 50
+                          ? "Below Capacity"
+                          : "Above Capacity"}
+                      </Card.Subtitle>
+                      <h1 style={{ fontSize: "6rem" }}>
+                        {Number(this.state.predictedOccupancy).toPrecision(2)}
+                      </h1>
+                      <OccupancyChart
+                        data={{ occupancy: this.state.predictedOccupancy }}
+                      />
                     </Card.Body>
                   </Card>
                 </Col>
