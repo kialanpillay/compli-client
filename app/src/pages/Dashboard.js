@@ -75,8 +75,7 @@ export default class Dashboard extends React.Component {
     const payload = {
       option: option,
     };
-    //const endpoint = `https://compli-api.herokuapp.com/notification/`;
-    const endpoint = `http://127.0.0.1:5000/notification/`;
+    const endpoint = `https://compli-api.herokuapp.com/notification/`;
     fetch(endpoint, {
       method: "POST",
       headers: {
