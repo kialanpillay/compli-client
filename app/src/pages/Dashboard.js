@@ -169,7 +169,7 @@ export default class Dashboard extends React.Component {
         <Container>
           <Row className="justify-content-center" style={{ marginTop: "2rem" }}>
             <Col md="auto">
-              <h1 style={{ fontSize: "4rem" }}>Dashboard</h1>
+              <h1 style={{ color: "white", fontSize: "4rem" }}>Dashboard</h1>
             </Col>
           </Row>
           {this.state.records.length === 0 ? (
@@ -178,7 +178,7 @@ export default class Dashboard extends React.Component {
             <div>
               <Row style={{ marginTop: "1rem" }}>
                 <Col md={3}>
-                  <Card style={{ height: "12rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "12rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Average Temperature</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -200,7 +200,7 @@ export default class Dashboard extends React.Component {
                 </Col>
 
                 <Col md={3}>
-                  <Card style={{ height: "12rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "12rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Isolated Employees</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -263,7 +263,7 @@ export default class Dashboard extends React.Component {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card style={{ height: "20rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "20rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>In-Office Employees</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -281,7 +281,7 @@ export default class Dashboard extends React.Component {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card style={{ height: "20rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "20rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Predicted Occupancy</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">

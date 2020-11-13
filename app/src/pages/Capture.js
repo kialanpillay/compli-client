@@ -144,7 +144,7 @@ export default class Capture extends Component {
 
   render() {
     return (
-      <div className="p-Div" style={{ backgroundColor: "#36454F" }}>
+      <div className="p-Div" style={{ backgroundColor: "rgb(53,57,60)" }}>
         <Container>
           <Tabs defaultActiveKey="capture" style={{ marginTop: "2rem" }}>
             <Tab eventKey="capture" title="Employee Screening">
