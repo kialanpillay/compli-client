@@ -145,7 +145,7 @@ export default class Dashboard extends React.Component {
     });
 
     this.setState({
-      avgTemp: temperature / records.length,
+      avgTemp: records.length === 0 ? 0 : temperature / records.length,
       occupancy: records.length,
       filtered: records,
       symptoms: symptoms,
@@ -169,7 +169,7 @@ export default class Dashboard extends React.Component {
         <Container>
           <Row className="justify-content-center" style={{ marginTop: "2rem" }}>
             <Col md="auto">
-              <h1 style={{ color: "white", fontSize: "4rem" }}>Dashboard</h1>
+              <p style={{ color: "white", fontSize: "4rem", fontWeight: 300 }}>Dashboard</p>
             </Col>
           </Row>
           {this.state.records.length === 0 ? (
