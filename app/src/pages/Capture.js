@@ -14,6 +14,7 @@ import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { RadioGroup } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
+import Alert from "react-bootstrap/Alert";
 
 const symptomsData = [
   {
@@ -52,6 +53,8 @@ const certData = [
     text: "I Agree",
   },
 ];
+let selectedSymptomsConverted = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
 export default class Capture extends Component {
   constructor(props) {
     super(props);
@@ -65,19 +68,63 @@ export default class Capture extends Component {
       empCert: "",
       selectedSymptoms: [],
       selectedCert: [],
+      tempHigh: false,
+      upload:false,
     };
     this.callbackChecklist = this.callbackChecklist.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.callbackChecklistCert = this.callbackChecklistCert.bind(this);
   }
   //Sets the state of the symptoms array to include items that have been selected.
   callbackChecklist = (checked) => {
     this.setState({ selectedSymptoms: checked });
+    this.symptomsConvert(this.state.selectedSymptoms);
   };
   callbackChecklistCert = (checked) => {
     this.setState({ selectedCert: checked });
   };
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+  symptomsConvert = (symptomsSelect) => {
+    for (let i = 0; i < 10; i++) {
+      if (symptomsSelect.includes(symptomsData[i].text)) {
+        selectedSymptomsConverted[i] = 1;
+      }
+    }
+  };
+  checkTemp = (temp) => {
+    // income tax number is 10 digits
+    if (temp > 38) {
+      this.state.tempHigh = true;
+    }
+  };
+
+  post = () => {
+    const payload = {
+      empID: this.state.empID,
+      empTemp: this.state.empTemp,
+      empTravel: this.state.empTravel,
+      empExposure: this.state.empExposure,
+      symptoms: selectedSymptomsConverted,
+    };
+    const endpoint = `https://compli-api.herokuapp.com/`;
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .then((response) => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  alertOnClose = () => {
+    window.location.href = "/"
   };
   render() {
     return (
@@ -112,7 +159,7 @@ export default class Capture extends Component {
                   <div className="ulabel">Symptoms</div>
                   <div className="ucontent-div">
                     <Form.Group as={Col} controlId="symptonsChecklist">
-                      <Form.Label>Symptoms</Form.Label>
+                      <Form.Label>Symptoms Today</Form.Label>
 
                       <Checklist
                         data={symptomsData.map((symptoms) => symptoms.text)}
@@ -210,6 +257,7 @@ export default class Capture extends Component {
                     </Form.Group>
                     <Button
                       className="ubutton"
+                      onClick={() => this.post()}
                       style={{
                         marginLeft: "15px",
                         backgroundColor: "green",
@@ -220,6 +268,22 @@ export default class Capture extends Component {
                     >
                       Submit
                     </Button>
+                    <Alert
+                      show={this.state.upload}
+                      variant={this.state.tempHigh ? "warning" : "success"}
+                      onClose={() => this.alertOnClose("success")}
+                      dismissible
+                      style={{
+                        display: "flex",
+                        marginLeft: "0.5rem",
+                        marginRight: "0.5rem",
+                        marginTop: "0.5rem",
+                      }}
+                    >
+                      {this.state.tempHigh
+                        ? "Notify Manager"
+                        : "Form Submitted"}
+                    </Alert>
                   </div>
                 </div>
               </Form>
