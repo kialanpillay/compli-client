@@ -58,7 +58,7 @@ export default class Checklist extends Component {
                   checked={this.state.checked.indexOf(value) !== -1}
                   tabIndex={-1}
                   disableRipple
-                  style={{ color: "#32CD32" }}
+                  style={{ color: "#17c671" }}
                 />
               </ListItemIcon>
               {this.props.variant === "experiment" ? (

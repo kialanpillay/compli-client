@@ -1,20 +1,18 @@
 import React, { Component } from "react";
-import Container from "react-bootstrap/Container";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
 import "./DailyCapture.css";
 import Checklist from "../components/Checklist";
 import FormControl from "@material-ui/core/FormControl";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { RadioGroup } from "@material-ui/core";
+import { Container, RadioGroup } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
 import Alert from "react-bootstrap/Alert";
+import CheckIcon from "@material-ui/icons/Check";
 
 const symptomsData = [
   {
@@ -69,7 +67,7 @@ export default class Capture extends Component {
       selectedSymptoms: [],
       selectedCert: [],
       tempHigh: false,
-      upload:false,
+      upload: false,
     };
     this.callbackChecklist = this.callbackChecklist.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -96,11 +94,12 @@ export default class Capture extends Component {
   checkTemp = (temp) => {
     // income tax number is 10 digits
     if (temp > 38) {
-      this.state.tempHigh = true;
+      this.setState({ tempHigh: true });
     }
   };
 
   post = () => {
+    this.setState({ upload: true });
     const payload = {
       empID: this.state.empID,
       empTemp: this.state.empTemp,
@@ -108,7 +107,7 @@ export default class Capture extends Component {
       empExposure: this.state.empExposure,
       symptoms: selectedSymptomsConverted,
     };
-    const endpoint = `https://compli-api.herokuapp.com/`;
+    const endpoint = `https://compli-api.herokuapp.com/screening/`;
     fetch(endpoint, {
       method: "POST",
       headers: {
@@ -124,13 +123,34 @@ export default class Capture extends Component {
       });
   };
   alertOnClose = () => {
-    window.location.href = "/"
+    window.location.href = "/";
   };
+  handleChangeTravel = (event) => {
+    this.setState({ value: event.target.value });
+    this.setState({ empTravel: event.target.value });
+    console.log(this.state.empTravel);
+  };
+  handleChangeExposure = (event) => {
+    this.setState({ value: event.target.value });
+    this.setState({ empExposure: event.target.value });
+    console.log(this.state.empExposure);
+  };
+
   render() {
     return (
-      <div style={{ overflowX: "none" }}>
-        <Tabs defaultActiveKey="capture" style={{ marginTop: "1rem" }}>
-          <Tab eventKey="daily-capture" title="Employee Screening">
+      <div
+        className="p-Div"
+        style={{ overflowX: "none", backgroundColor: "#36454F" }}
+      >
+        <Tabs
+          defaultActiveKey="capture"
+          style={{ marginTop: "1rem", backgroundColor: "#36454F" }}
+        >
+          <Tab
+            eventKey="daily-capture"
+            title="Employee Screening"
+            style={{ backgroundColor: "#36454F" }}
+          >
             <div className="container u-form">
               <div className="pageHeading">Daily Screening Questions</div>
               <hr /> {/*Splits up sections*/}
@@ -167,6 +187,7 @@ export default class Capture extends Component {
                         callback={this.callbackChecklist}
                       />
                     </Form.Group>
+                    <img src={"./Covid.png"} height="350" alt="Graphic"></img>
                   </div>
                 </div>
                 <hr />
@@ -192,19 +213,20 @@ export default class Capture extends Component {
                         anyone who has tested positive for COVID-19?
                       </Form.Label>
 
-                      <FormControl component="fieldset">
+                      <FormControl>
                         <RadioGroup
-                          value={this.state.empExposure}
-                          onChange={this.handleChange}
+                          value={this.state.value}
+                          onChange={this.handleChangeTravel}
+                          name="Exposure"
                         >
                           <FormControlLabel
                             value="0"
-                            control={<Radio style={{ color: "#32CD32" }} />}
+                            control={<Radio style={{ color: "#17c671" }} />}
                             label="No"
                           />
                           <FormControlLabel
                             value="1"
-                            control={<Radio style={{ color: "#32CD32" }} />}
+                            control={<Radio style={{ color: "#17c671" }} />}
                             label="Yes"
                           />
                         </RadioGroup>
@@ -218,19 +240,20 @@ export default class Capture extends Component {
                         Regulations?{" "}
                       </Form.Label>
 
-                      <FormControl component="fieldset">
+                      <FormControl>
                         <RadioGroup
-                          value={this.state.empTravel}
-                          onChange={this.handleChange}
+                          name="Travel"
+                          value={this.state.value}
+                          onChange={this.handleChangeExposure}
                         >
                           <FormControlLabel
                             value="0"
-                            control={<Radio style={{ color: "#32CD32" }} />}
+                            control={<Radio style={{ color: "#17c671" }} />}
                             label="No"
                           />
                           <FormControlLabel
                             value="1"
-                            control={<Radio style={{ color: "#32CD32" }} />}
+                            control={<Radio style={{ color: "#17c671" }} />}
                             label="Yes"
                           />
                         </RadioGroup>
@@ -260,8 +283,8 @@ export default class Capture extends Component {
                       onClick={() => this.post()}
                       style={{
                         marginLeft: "15px",
-                        backgroundColor: "green",
-                        border: "#4E2E84",
+                        backgroundColor: "#17c671",
+                        border: "#17c671",
                         height: "50px",
                         width: "90px",
                       }}
@@ -283,6 +306,11 @@ export default class Capture extends Component {
                       {this.state.tempHigh
                         ? "Notify Manager"
                         : "Form Submitted"}
+                      <CheckIcon
+                        style={{
+                          marginRight: "5px",
+                        }}
+                      />
                     </Alert>
                   </div>
                 </div>
@@ -295,3 +323,4 @@ export default class Capture extends Component {
     );
   }
 }
+//<a href="https://stories.freepik.com/people">Illustration by Freepik Stories</a>
