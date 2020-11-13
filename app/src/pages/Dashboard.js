@@ -62,6 +62,35 @@ export default class Dashboard extends React.Component {
     this.getPredictions();
   }
 
+  sendNotification() {
+    if (this.state.occupancy > 50) {
+      this.postNotification("Occupancy")
+    }
+    if (this.state.profile.High > 20) {
+      this.postNotification("Risk")
+    }
+  }
+
+  postNotification = (option) => {
+    const payload = {
+      option: option,
+    };
+    //const endpoint = `https://compli-api.herokuapp.com/notification/`;
+    const endpoint = `http://127.0.0.1:5000/notification/`;
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   getScreeningRecords = () => {
     const endpoint = `https://compli-api.herokuapp.com/screening/`;
     fetch(endpoint, {
@@ -92,6 +121,7 @@ export default class Dashboard extends React.Component {
         });
       })
       .then(() => this.processPredictions())
+      .then(() => this.sendNotification())
       .catch((err) => {
         console.log(err);
       });
