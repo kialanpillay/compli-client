@@ -14,7 +14,7 @@ export default class OccupancyChart extends PureComponent {
         <PieChart width={200} height={80}>
         <Pie
           data={data}
-          cx={100}
+          cx={110}
           cy={80}
           startAngle={180}
           endAngle={0}
