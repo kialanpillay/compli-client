@@ -73,6 +73,7 @@ export default class Capture extends Component {
       selectedSymptoms: [],
       certification: [],
       fever: false,
+      uploadScreening: false,
       upload: false,
       empDays: 10,
       empSigns: 0,
@@ -111,7 +112,7 @@ export default class Capture extends Component {
   };
 
   postScreening = () => {
-    this.setState({ upload: true });
+    this.setState({ uploadScreening: true });
     const payload = {
       empID: this.state.empID,
       empTemp: Number(this.state.empTemp),
@@ -345,7 +346,7 @@ export default class Capture extends Component {
                         Submit
                       </Button>
                       <Alert
-                        show={this.state.upload}
+                        show={this.state.uploadScreening}
                         variant={this.state.fever ? "warning" : "success"}
                         onClose={() => this.alertOnClose("success")}
                         dismissible
@@ -368,7 +369,7 @@ export default class Capture extends Component {
                 </Form>
               </div>
             </Tab>
-            <Tab eventKey="healthCheck-capture" title="Employee Health">
+            <Tab eventKey="healthCheck-capture" title="Employee Quarantine Health Check">
               <div className="container u-form">
                 <div className="pageHeading">Quarantine Health Check</div>
                 <hr />
@@ -424,12 +425,12 @@ export default class Capture extends Component {
                             name="signs"
                           >
                             <FormControlLabel
-                              value="0"
+                              value={0}
                               control={<Radio style={{ color: "#17c671" }} />}
                               label="No"
                             />
                             <FormControlLabel
-                              value="1"
+                              value={1}
                               control={<Radio style={{ color: "#17c671" }} />}
                               label="Yes"
                             />
@@ -501,7 +502,7 @@ export default class Capture extends Component {
                         variant={
                           this.state.canReturn == 0 ? "danger" : "success"
                         }
-                        onClose={() => this.alertOnClose("success")}
+                        onClose={() => this.alertOnClose()}
                         dismissible
                         style={{
                           display: "flex",
