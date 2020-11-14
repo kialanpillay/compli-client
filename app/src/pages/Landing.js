@@ -56,11 +56,11 @@ function Landing() {
           <div class="row">
             <div class="col-lg-6 col-md-5 col-sm-12 mt-auto mb-auto mr-3">
               <h1 class="welcome-heading display-4 text-white">
-                Employee health compliance made quick &amp; easy
+                Employee health management made quick &amp; easy
               </h1>
               <p class="text-muted">
                 Achieve faster compliance with cutting-edge machine learning and
-                predictive analytics software designed to track key employee
+                predictive analytics-powered dashboards designed to track key employee
                 metrics regarding health, risk, and exposure to COVID-19.
               </p>
               <a
