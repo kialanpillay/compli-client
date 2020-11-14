@@ -13,7 +13,7 @@ import { RadioGroup } from "@material-ui/core";
 import Radio from "@material-ui/core/Radio";
 import Alert from "react-bootstrap/Alert";
 import CheckIcon from "@material-ui/icons/Check";
-import "./DailyCapture.css";
+import "./Capture.css";
 import Sidebar from "../components/Sidebar";
 
 const symptomsData = [
@@ -499,7 +499,7 @@ export default class Capture extends Component {
                       <Alert
                         show={this.state.upload}
                         variant={
-                          this.state.canReturn == 0 ? "warning" : "success"
+                          this.state.canReturn == 0 ? "danger" : "success"
                         }
                         onClose={() => this.alertOnClose("success")}
                         dismissible
