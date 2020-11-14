@@ -285,7 +285,7 @@ class Dashboard extends React.Component {
                             </Card.Subtitle>
                             <h1
                               style={{
-                                fontSize: "5rem",
+                                fontSize: "3.5rem",
                                 color:
                                   this.state.avgTemp > 37.5
                                     ? "orange"
@@ -321,7 +321,7 @@ class Dashboard extends React.Component {
                             <Card.Subtitle className="mb-2 text-muted">
                               {"Overdue/Total Employees"}
                             </Card.Subtitle>
-                            <h1 style={{ fontSize: "5rem" }}>
+                            <h1 style={{ fontSize: "4rem" }}>
                               {this.state.isolation}/
                               {this.state.quarantine.length}
                             </h1>
@@ -355,7 +355,7 @@ class Dashboard extends React.Component {
                               <Col md={4}>
                                 <h1>
                                   <Badge pill variant={"success"}>
-                                    {Number(this.state.profile.Low).toFixed(1)}%
+                                    {Number(this.state.profile.Low).toFixed(0)}%
                                   </Badge>
                                 </h1>
                               </Col>
@@ -367,14 +367,14 @@ class Dashboard extends React.Component {
                                     style={{ color: "white" }}
                                     variant={"warning"}
                                   >
-                                    {Number(this.state.profile.Med).toFixed(1)}%
+                                    {Number(this.state.profile.Med).toFixed(0)}%
                                   </Badge>
                                 </h1>
                               </Col>
                               <Col md={4}>
                                 <h1>
                                   <Badge pill variant={"danger"}>
-                                    {Number(this.state.profile.High).toFixed(1)}
+                                    {Number(this.state.profile.High).toFixed(0)}
                                     %
                                   </Badge>
                                 </h1>
