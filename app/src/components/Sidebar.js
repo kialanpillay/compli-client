@@ -4,7 +4,7 @@ import { SidebarData } from "./SidebarData";
 import LoginButton from "../components/LoginButton";
 import LogoutButton from "../components/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
-
+import heart from "../img/heart.png";
 function Sidebar() {
   const {
     isLoading,
@@ -18,11 +18,11 @@ function Sidebar() {
     <div className="Sidebar">
       <ul className="SidebarList">
         <li>
-          <h2
+          <p
             style={{ color: "white", textAlign: "center", paddingTop: "1rem" }}
-          >
+          > <img className="logo" src={heart} class="mr-2" alt="" style={{width:"36px", fontSize:"26px"}} />
             Complì
-          </h2>
+          </p>
         </li>
         {SidebarData.map((val, key) => {
           return (
@@ -36,11 +36,13 @@ function Sidebar() {
             >
               <div id="icon">{val.icon}</div> <div id="title">{val.title}</div>
             </li>
+           
           );
         })}
+        <li>{isAuthenticated ? <LogoutButton /> : <LoginButton />}</li>
       </ul>
 
-      {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+      
     </div>
   );
 }

@@ -3,7 +3,7 @@ import "./landing.css";
 import { Col, Row, Container } from "react-bootstrap";
 //====== images ======
 import iphone from "../img/iphone.png";
-import logo from "../img/logo.png";
+
 import heart from "../img/heart.png";
 
 function Landing() {

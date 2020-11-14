@@ -4,12 +4,20 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Navbar from "../components/Navbar";
 import LoginButton from "../components/LoginButton";
+import Sidebar from "../components/Sidebar";
 
 function Test() {
     return (
         <div>
-           <Navbar />
-           <LoginButton/>
+            <Row>
+                <Col md={2}>
+            <Sidebar/>
+            </Col>
+            <Col>
+            </Col>
+            </Row>
+            
+           
         </div>
     );
 }

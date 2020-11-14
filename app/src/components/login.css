@@ -1,0 +1,24 @@
+.login{
+    height: 60px;
+    display: flex;
+}
+
+.login:hover{
+    cursor: pointer;
+    background-color: #293846;
+}
+
+.login-btn{
+    flex: 70% 1;
+    margin: 0;
+    line-height: 60px;
+    
+}
+
+.login-icon{
+    height: 28px;
+    margin-top: 18px;
+    flex: 30% 1;
+    display: grid;
+    place-items: center;
+}
