@@ -73,7 +73,7 @@ export default class Capture extends Component {
       certification: [],
       fever: false,
       upload: false,
-      empDays: "",
+      empDays: 10,
       empSigns: 0,
       empFever: 1,
       canReturn: 0,
@@ -109,7 +109,7 @@ export default class Capture extends Component {
     }
   };
 
-  postWeekly = () => {
+  postScreening = () => {
     this.setState({ upload: true });
     const payload = {
       empID: this.state.empID,
@@ -132,14 +132,10 @@ export default class Capture extends Component {
         console.log(err);
       });
   };
+
   postHealthCheck = () => {
     this.setState({ upload: true });
     this.employeeReturnCheck();
-    console.log(this.state.empID);
-    console.log(this.state.empDays);
-    console.log(this.state.empFever);
-    console.log(this.state.empSigns);
-    console.log(this.state.canReturn);
     const payload = {
       empID: this.state.empID,
       days: Number(this.state.empDays),
@@ -163,9 +159,8 @@ export default class Capture extends Component {
   };
 
   employeeReturnCheck = () => {
-    if (this.state.empFever == 1 && this.state.empSigns == 0) {
+    if (this.state.empFever == 0 && this.state.empSigns == 0) {
       this.setState({ canReturn: 1 });
-
     } else {
       this.setState({ canReturn: 0 });
     }
@@ -175,19 +170,15 @@ export default class Capture extends Component {
   };
 
   handleChangeTravel = (event) => {
-
     this.setState({ empTravel: event.target.value });
   };
   handleChangeExposure = (event) => {
-
     this.setState({ empExposure: event.target.value });
   };
   handleChangeSigns = (event) => {
-
     this.setState({ empSigns: event.target.value });
   };
   handleChangeFever = (event) => {
-
     this.setState({ empFever: event.target.value });
   };
 
@@ -336,7 +327,7 @@ export default class Capture extends Component {
                       </Form.Group>
                       <Button
                         className="ubutton"
-                        onClick={() => this.postWeekly()}
+                        onClick={() => this.postScreening()}
                         disabled={this.state.certification.length === 0}
                         style={{
                           marginLeft: "15px",
@@ -404,7 +395,7 @@ export default class Capture extends Component {
                         </Form.Label>
 
                         <Form.Control
-                          placeholder="10"
+                          placeholder={10}
                           required={true}
                           name="empDays"
                           value={this.state.empDays}
@@ -413,12 +404,13 @@ export default class Capture extends Component {
                       </Form.Group>
 
                       <Form.Group as={Col} controlId="signs">
-                        <Form.Label >
+                        <Form.Label>
                           Are you experiencing any visible signs/symptoms of
-                          illness? These include coughing, sore throat, shortness of breath, body aches, loss of smell/taste, nausea, vomiting,
-                          diarrhoea, fatigue, fever and weakness/tiredness.
+                          illness? These include coughing, sore throat,
+                          shortness of breath, body aches, loss of smell/taste,
+                          nausea, vomiting, diarrhoea, fatigue, fever and
+                          weakness.
                         </Form.Label>
-                        
 
                         <FormControl>
                           <RadioGroup
@@ -441,10 +433,10 @@ export default class Capture extends Component {
                       </Form.Group>
 
                       <Form.Group as={Col} controlId="nofever">
-                        <Form.Label >
+                        <Form.Label>
                           I have had no fever for at least 24 hours without
                           taking medication to reduce fever during that time AND
-                          symptoms have improved
+                          symptoms have improved.
                         </Form.Label>
 
                         <FormControl>
@@ -454,12 +446,12 @@ export default class Capture extends Component {
                             onChange={this.handleChangeFever}
                           >
                             <FormControlLabel
-                              value="1"
+                              value={0}
                               control={<Radio style={{ color: "#17c671" }} />}
                               label="True"
                             />
                             <FormControlLabel
-                              value="0"
+                              value={1}
                               control={<Radio style={{ color: "#17c671" }} />}
                               label="False"
                             />
@@ -514,8 +506,8 @@ export default class Capture extends Component {
                         }}
                       >
                         {this.state.canReturn == 0
-                          ? "Form Submitted.You are required to remain home."
-                          : "Form Submitted.You may return to work."}
+                          ? "Form Submitted. You are required to remain at home."
+                          : "Form Submitted. You may return to work."}
                         <CheckIcon
                           style={{
                             marginRight: "5px",
