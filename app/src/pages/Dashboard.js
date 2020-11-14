@@ -308,7 +308,7 @@ class Dashboard extends React.Component {
                       </Card>
                     </Col>
                   </Row>
-                  <Row style={{ marginTop: "1rem" }}>
+                  <Row className="dashboard" style={{ marginTop: "1rem" }}>
                     <Col md={6}>
                       <Card
                         border="light"
@@ -488,7 +488,7 @@ class Dashboard extends React.Component {
                     </Card>
                   </Col>
                 </Row>
-                <Row style={{ marginTop: "1rem" }}>
+                <Row className="dashboard" style={{ marginTop: "1rem" }}>
                   <Col md={6}>
                     <Card
                       border="light"
