@@ -161,7 +161,7 @@ export default class Capture extends Component {
       });
   };
   dailyCheck = () => {
-    if (selectedSymptoms.length>0 || Number(this.state.empExposure)==1 ||Number(this.state.empTravel)==1 ){
+    if (this.state.selectedSymptoms.length>0 || Number(this.state.empExposure)==1 ||Number(this.state.empTravel)==1 ){
       this.setState({ dailyCheck: false });
     }
   };
