@@ -79,6 +79,7 @@ export default class Capture extends Component {
       empSigns: "0",
       empFever: "0",
       canReturn: 0,
+      dailyCheck:true,
     };
     this.callbackChecklist = this.callbackChecklist.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -159,6 +160,12 @@ export default class Capture extends Component {
         console.log(err);
       });
   };
+  dailyCheck = () => {
+    if (selectedSymptoms.length>0 || Number(this.state.empExposure)==1 ||Number(this.state.empTravel)==1 ){
+      this.setState({ dailyCheck: false });
+    }
+  };
+
 
   employeeReturnCheck = () => {
     if (Number(this.state.empFever) == 0 && Number(this.state.empSigns) == 0) {
@@ -166,6 +173,7 @@ export default class Capture extends Component {
     } else {
       this.setState({ canReturn: 0 });
     }
+
   };
   alertOnClose = () => {
     window.location.href = "/";
@@ -347,7 +355,7 @@ export default class Capture extends Component {
                       </Button>
                       <Alert
                         show={this.state.uploadScreening}
-                        variant={this.state.fever ? "warning" : "success"}
+                        variant={this.state.dailyCheck ? "success" : "danger"}
                         onClose={() => this.alertOnClose("success")}
                         dismissible
                         style={{
@@ -357,7 +365,7 @@ export default class Capture extends Component {
                           marginTop: "0.5rem",
                         }}
                       >
-                        {this.state.fever ? "Notify Manager" : "Form Submitted"}
+                        {this.state.dailyCheck ? "Form Submitted." : "Form Submitted. You will be contacted soon."}
                         <CheckIcon
                           style={{
                             marginRight: "5px",
