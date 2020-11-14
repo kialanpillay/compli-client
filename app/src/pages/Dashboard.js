@@ -1,15 +1,13 @@
 import React from "react";
-import { Container, Col, Row } from "react-bootstrap";
-import Card from "react-bootstrap/Card";
-
+import { Container, Col, Row, Card } from "react-bootstrap";
 import Badge from "react-bootstrap/Badge";
 import Spinner from "react-bootstrap/Spinner";
 import Chart from "../components/Chart";
 import OccupancyChart from "../components/OccupancyChart";
-import _ from "lodash";
 import Sidebar from "../components/Sidebar";
-import LoginButton from "../components/LoginButton";
 import "./dashboard.css";
+import _ from "lodash";
+import { CSVLink } from "react-csv";
 import { withAuth0 } from "@auth0/auth0-react";
 // eslint-disable-next-line
 Date.prototype.subtractDays = function (date, days) {
@@ -25,6 +23,27 @@ Date.prototype.sameDay = function (d) {
     this.getMonth() === d.getMonth()
   );
 };
+
+const HEADERS = [
+  `uuid`,
+  `datetime`,
+  `empID`,
+  `empTemp`,
+  `empTravel`,
+  `empExposure`,
+  `Fever`,
+  `Cough`,
+  `Throat`,
+  `Breath`,
+  `Aches`,
+  `Smell`,
+  `Taste`,
+  `Nausea`,
+  `Vomit`,
+  `Diarrhoea`,
+  `Fatigue`,
+  `Weak`,
+];
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -182,7 +201,7 @@ class Dashboard extends React.Component {
   };
 
   processPredictions = () => {
-    const risk = this.state.predictedRisk;
+    let risk = this.state.predictedRisk;
     if (risk[0] < risk[2]) {
       risk = risk.reverse();
     }
@@ -209,7 +228,22 @@ class Dashboard extends React.Component {
               <Row className="dash-heading">
                 <div className="blankbar"></div>
                 <Container>
-                  <h2>Dashboard</h2>
+                  <Row>
+                    <Col md={2}>
+                      <h2>Dashboard</h2>
+                    </Col>
+                    <Col md={{ span: 2, offset: 8 }}>
+                      <CSVLink
+                        class="btn btn-lg btn-success btn-pill align-self-center"
+                        data={this.state.records}
+                        headers={HEADERS}
+                        filename={"employee_screening_submissions.csv"}
+                        disabled={this.state.records.length === 0}
+                      >
+                        Download
+                      </CSVLink>
+                    </Col>
+                  </Row>
                 </Container>
               </Row>
               {this.state.records.length === 0 ? (
