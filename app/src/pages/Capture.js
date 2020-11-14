@@ -74,6 +74,10 @@ export default class Capture extends Component {
       certification: [],
       fever: false,
       upload: false,
+      empDays: 10,
+      empSigns: 0,
+      empFever: 1,
+      canReturn: 0,
     };
     this.callbackChecklist = this.callbackChecklist.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -106,7 +110,7 @@ export default class Capture extends Component {
     }
   };
 
-  post = () => {
+  postScreening = () => {
     this.setState({ upload: true });
     const payload = {
       empID: this.state.empID,
@@ -130,17 +134,53 @@ export default class Capture extends Component {
       });
   };
 
+  postHealthCheck = () => {
+    this.setState({ upload: true });
+    this.employeeReturnCheck();
+    const payload = {
+      empID: this.state.empID,
+      days: Number(this.state.empDays),
+      fever: Number(this.state.empFever),
+      symptoms: Number(this.state.empSigns),
+      approved: Number(this.state.canReturn),
+    };
+    const endpoint = `https://compli-api.herokuapp.com/quarantine/`;
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  employeeReturnCheck = () => {
+    if (this.state.empFever == 0 && this.state.empSigns == 0) {
+      this.setState({ canReturn: 1 });
+    } else {
+      this.setState({ canReturn: 0 });
+    }
+  };
   alertOnClose = () => {
     window.location.href = "/";
   };
 
   handleChangeTravel = (event) => {
-    console.log(event.target.value);
     this.setState({ empTravel: event.target.value });
   };
   handleChangeExposure = (event) => {
-    console.log(event.target.value);
     this.setState({ empExposure: event.target.value });
+  };
+  handleChangeSigns = (event) => {
+    this.setState({ empSigns: event.target.value });
+  };
+  handleChangeFever = (event) => {
+    this.setState({ empFever: event.target.value });
   };
 
   render() {
@@ -195,7 +235,7 @@ export default class Capture extends Component {
                         <Col md={6}>
                           <img
                             src={"./epidemic.png"}
-                            width="300"
+                            width="500"
                             alt="Graphic"
                           ></img>
                         </Col>
@@ -292,7 +332,7 @@ export default class Capture extends Component {
                       </Form.Group>
                       <Button
                         className="ubutton"
-                        onClick={() => this.post()}
+                        onClick={() => this.postScreening()}
                         disabled={this.state.certification.length === 0}
                         style={{
                           marginLeft: "15px",
@@ -328,7 +368,162 @@ export default class Capture extends Component {
                 </Form>
               </div>
             </Tab>
-            <Tab eventKey="healthCheck-capture" title="Employee Health"></Tab>
+            <Tab eventKey="healthCheck-capture" title="Employee Health">
+              <div className="container u-form">
+                <div className="pageHeading">Quarantine Health Check</div>
+                <hr />
+                <Form>
+                  {/*Div used for ID  */}
+                  <div className="u-div">
+                    <div className="ulabel">Employee Details</div>
+                    <div className="ucontent-div">
+                      <Form.Group as={Col} controlId="employeeID">
+                        <Form.Label>Identification Number</Form.Label>
+                        <Form.Control
+                          placeholder="Enter ID Number"
+                          required={true}
+                          name="empID"
+                          value={this.state.empID}
+                          onChange={this.handleChange}
+                        />
+                      </Form.Group>
+                    </div>
+                  </div>
+                  <hr />
+                  {/*Div used for Symptoms info */}
+                  <div className="u-div">
+                    <div className="ulabel">Symptoms</div>
+                    <div className="ucontent-div">
+                      <Form.Group as={Col} controlId="employeeTemp">
+                        <Form.Label>
+                          How many days have you been in quarantine?
+                        </Form.Label>
+
+                        <Form.Control
+                          placeholder={10}
+                          required={true}
+                          name="empDays"
+                          value={this.state.empDays}
+                          onChange={this.handleChange}
+                        />
+                      </Form.Group>
+
+                      <Form.Group as={Col} controlId="signs">
+                        <Form.Label>
+                          Are you experiencing any visible signs/symptoms of
+                          illness? These include coughing, sore throat,
+                          shortness of breath, body aches, loss of smell/taste,
+                          nausea, vomiting, diarrhoea, fatigue, fever and
+                          weakness.
+                        </Form.Label>
+
+                        <FormControl>
+                          <RadioGroup
+                            value={this.state.empSigns}
+                            onChange={this.handleChangeSigns}
+                            name="signs"
+                          >
+                            <FormControlLabel
+                              value="0"
+                              control={<Radio style={{ color: "#17c671" }} />}
+                              label="No"
+                            />
+                            <FormControlLabel
+                              value="1"
+                              control={<Radio style={{ color: "#17c671" }} />}
+                              label="Yes"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </Form.Group>
+
+                      <Form.Group as={Col} controlId="nofever">
+                        <Form.Label>
+                          I have had no fever for at least 24 hours without
+                          taking medication to reduce fever during that time AND
+                          symptoms have improved.
+                        </Form.Label>
+
+                        <FormControl>
+                          <RadioGroup
+                            name="nofever"
+                            value={this.state.empFever}
+                            onChange={this.handleChangeFever}
+                          >
+                            <FormControlLabel
+                              value={0}
+                              control={<Radio style={{ color: "#17c671" }} />}
+                              label="True"
+                            />
+                            <FormControlLabel
+                              value={1}
+                              control={<Radio style={{ color: "#17c671" }} />}
+                              label="False"
+                            />
+                          </RadioGroup>
+                        </FormControl>
+                      </Form.Group>
+                    </div>
+                  </div>
+                  <hr />
+                  {/*Div used for Certification */}
+                  <div className="u-div">
+                    <div className="ulabel">Certification</div>
+                    <div className="ucontent-div">
+                      <Form.Group as={Col} controlId="certChecklist">
+                        <Form.Label>
+                          I hereby certify that the responses provided above are
+                          true and accurate to the best of my knowledge.
+                        </Form.Label>
+
+                        <Checklist
+                          data={certData.map((cert) => cert.text)}
+                          checked={this.state.certification}
+                          callback={this.callbackChecklistCert}
+                        />
+                      </Form.Group>
+                      <Button
+                        className="ubutton"
+                        onClick={() => this.postHealthCheck()}
+                        disabled={this.state.certification.length === 0}
+                        style={{
+                          marginLeft: "15px",
+                          backgroundColor: "#17c671",
+                          border: "#17c671",
+                          height: "50px",
+                          width: "90px",
+                        }}
+                      >
+                        Submit
+                      </Button>
+                      <Alert
+                        show={this.state.upload}
+                        variant={
+                          this.state.canReturn == 0 ? "warning" : "success"
+                        }
+                        onClose={() => this.alertOnClose("success")}
+                        dismissible
+                        style={{
+                          display: "flex",
+                          marginLeft: "0.5rem",
+                          marginRight: "0.5rem",
+                          marginTop: "0.5rem",
+                        }}
+                      >
+                        {this.state.canReturn == 0
+                          ? "Form Submitted. You are required to remain at home."
+                          : "Form Submitted. You may return to work."}
+                        <CheckIcon
+                          style={{
+                            marginRight: "5px",
+                          }}
+                        />
+                      </Alert>
+                    </div>
+                  </div>
+                </Form>
+              </div>
+            </Tab>
           </Tabs>
           </Col>
           </Row>
