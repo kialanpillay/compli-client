@@ -29,6 +29,7 @@ export default class Dashboard extends React.Component {
     super(props);
     this.state = {
       records: [],
+      quarantine: [],
       filtered: [],
       predictedRisk: [],
       predictedOccupancy: 1,
@@ -60,14 +61,15 @@ export default class Dashboard extends React.Component {
   componentDidMount() {
     this.getScreeningRecords();
     this.getPredictions();
+    this.getQuarantineRecords();
   }
 
   sendNotification() {
     if (this.state.occupancy > 50) {
-      this.postNotification("Occupancy")
+      this.postNotification("Occupancy");
     }
     if (this.state.profile.High > 20) {
-      this.postNotification("Risk")
+      this.postNotification("Risk");
     }
   }
 
@@ -107,6 +109,23 @@ export default class Dashboard extends React.Component {
       });
   };
 
+  getQuarantineRecords = () => {
+    const endpoint = `https://compli-api.herokuapp.com/quarantine/`;
+    fetch(endpoint, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        this.setState({
+          quarantine: response.records,
+        });
+      })
+      .then(() => this.processQuarantineRecords())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   getPredictions = () => {
     const endpoint = `https://compli-api.herokuapp.com/prediction/`;
     fetch(endpoint, {
@@ -115,7 +134,7 @@ export default class Dashboard extends React.Component {
       .then((response) => response.json())
       .then((response) => {
         this.setState({
-          predictedRisk: response.risk.sort().reverse(),
+          predictedRisk: response.risk.sort(),
           predictedOccupancy: response.occupancy,
         });
       })
@@ -152,8 +171,19 @@ export default class Dashboard extends React.Component {
     });
   };
 
+  processQuarantineRecords = () => {
+    const records = this.state.quarantine.filter((element) => element[5] > 10);
+    console.log(records.length);
+    this.setState({
+      isolation: records.length,
+    });
+  };
+
   processPredictions = () => {
     const risk = this.state.predictedRisk;
+    if (risk[0] < risk[2]) {
+      risk = risk.reverse();
+    }
     const sum = _.sum(risk);
     const profile = {
       Low: (risk[0] / sum) * 100,
@@ -169,7 +199,9 @@ export default class Dashboard extends React.Component {
         <Container>
           <Row className="justify-content-center" style={{ marginTop: "2rem" }}>
             <Col md="auto">
-              <p style={{ color: "white", fontSize: "4rem", fontWeight: 300 }}>Dashboard</p>
+              <p style={{ color: "white", fontSize: "4rem", fontWeight: 300 }}>
+                Dashboard
+              </p>
             </Col>
           </Row>
           {this.state.records.length === 0 ? (
@@ -178,7 +210,7 @@ export default class Dashboard extends React.Component {
             <div>
               <Row style={{ marginTop: "1rem" }}>
                 <Col md={3}>
-                  <Card style={{ minHeight: "12rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "13rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Average Temperature</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -200,20 +232,20 @@ export default class Dashboard extends React.Component {
                 </Col>
 
                 <Col md={3}>
-                  <Card style={{ minHeight: "12rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "13rem", marginBottom: "1rem" }}>
                     <Card.Body>
-                      <Card.Title>Isolated Employees</Card.Title>
+                      <Card.Title>Quarantine</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
-                        {this.state.isolation === 0
-                          ? "Maximum Personnel"
-                          : "Reduced Personnel"}
+                        {"Overdue/Total Employees"}
                       </Card.Subtitle>
-                      <h1 style={{ fontSize: "5rem" }}>0</h1>
+                      <h1 style={{ fontSize: "5rem" }}>
+                        {this.state.isolation}/{this.state.quarantine.length}
+                      </h1>
                     </Card.Body>
                   </Card>
                 </Col>
                 <Col md={6}>
-                  <Card style={{ minHeight: "12rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "13rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Predicted Risk Profile</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -249,7 +281,7 @@ export default class Dashboard extends React.Component {
               </Row>
               <Row style={{ marginTop: "1rem" }}>
                 <Col md={6}>
-                  <Card style={{ minHeight: "20rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "21rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Daily Symptoms</Card.Title>
                       <Row className="justify-content-center">
@@ -263,7 +295,7 @@ export default class Dashboard extends React.Component {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card style={{ minHeight: "20rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "21rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>In-Office Employees</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -281,7 +313,7 @@ export default class Dashboard extends React.Component {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card style={{ minHeight: "20rem", marginBottom: "1rem" }}>
+                  <Card style={{ minHeight: "21rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Predicted Occupancy</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
