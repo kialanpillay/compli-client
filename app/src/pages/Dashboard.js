@@ -266,7 +266,7 @@ class Dashboard extends React.Component {
                       placement="bottom"
                       overlay={
                         <Tooltip>
-                          The average tempreture of in-office employees today is {this.state.avgTemp}.
+                          The average tempreture of in-office employees today is {Number(this.state.avgTemp).toFixed(1)}.
                         </Tooltip>
                       }
                     >
