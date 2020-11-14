@@ -85,6 +85,7 @@ class Dashboard extends React.Component {
     this.getScreeningRecords();
     this.getPredictions();
     this.getQuarantineRecords();
+    const { user } = this.props.auth0;
   }
 
   sendNotification() {
@@ -97,8 +98,10 @@ class Dashboard extends React.Component {
   }
 
   postNotification = (option) => {
+    const { user } = this.props.auth0;
     const payload = {
       option: option,
+      to: user.name,
     };
     const endpoint = `https://compli-api.herokuapp.com/notification/`;
     fetch(endpoint, {
@@ -262,33 +265,37 @@ class Dashboard extends React.Component {
                         border="light"
                         className="shadow"
                         style={{ height: "12rem", marginBottom: "1rem" }}
-                      >  <OverlayTrigger
-                      placement="bottom"
-                      overlay={
-                        <Tooltip>
-                          The average tempreture of in-office employees today is {Number(this.state.avgTemp).toFixed(1)}.
-                        </Tooltip>
-                      }
-                    >
-                      <Card.Body>
-                          <Card.Title>Average Temperature</Card.Title>
-                          <Card.Subtitle className="mb-2 text-muted">
-                            {this.state.avgTemp > 37.5 ? "Abnormal" : "Normal"}
-                          </Card.Subtitle>
-                          <h1
-                            style={{
-                              fontSize: "5rem",
-                              color:
-                                this.state.avgTemp > 37.5
-                                  ? "orange"
-                                  : "#17c671",
-                            }}
-                          >
-                            {Number(this.state.avgTemp).toFixed(1)}
-                          </h1>
-                        </Card.Body>
-                    </OverlayTrigger>
-                        
+                      >
+                        {" "}
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={
+                            <Tooltip>
+                              The average tempreture of in-office employees
+                              today is {Number(this.state.avgTemp).toFixed(1)}.
+                            </Tooltip>
+                          }
+                        >
+                          <Card.Body>
+                            <Card.Title>Average Temperature</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">
+                              {this.state.avgTemp > 37.5
+                                ? "Abnormal"
+                                : "Normal"}
+                            </Card.Subtitle>
+                            <h1
+                              style={{
+                                fontSize: "5rem",
+                                color:
+                                  this.state.avgTemp > 37.5
+                                    ? "orange"
+                                    : "#17c671",
+                              }}
+                            >
+                              {Number(this.state.avgTemp).toFixed(1)}
+                            </h1>
+                          </Card.Body>
+                        </OverlayTrigger>
                       </Card>
                     </Col>
 
@@ -298,27 +305,28 @@ class Dashboard extends React.Component {
                         className="shadow"
                         style={{ height: "12rem", marginBottom: "1rem" }}
                       >
-                          <OverlayTrigger
-                    placement="bottom"
-                    overlay={
-                      <Tooltip>
-                       {this.state.isolation} employee is currently in quarantine for more than 10 days. {this.state.quarantine.length}  employees have completed their quarantine.
-                      </Tooltip>
-                    }
-                  >
-                    <Card.Body>
-                          
-                          <Card.Title>Quarantine</Card.Title>
-                          <Card.Subtitle className="mb-2 text-muted">
-                            {"Overdue/Total Employees"}
-                          </Card.Subtitle>
-                          <h1 style={{ fontSize: "5rem" }}>
-                            {this.state.isolation}/
-                            {this.state.quarantine.length}
-                          </h1>
-                        </Card.Body>
-                  </OverlayTrigger>
-                       
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={
+                            <Tooltip>
+                              {this.state.isolation} employee is currently in
+                              quarantine for more than 10 days.{" "}
+                              {this.state.quarantine.length} employees have
+                              completed their quarantine.
+                            </Tooltip>
+                          }
+                        >
+                          <Card.Body>
+                            <Card.Title>Quarantine</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">
+                              {"Overdue/Total Employees"}
+                            </Card.Subtitle>
+                            <h1 style={{ fontSize: "5rem" }}>
+                              {this.state.isolation}/
+                              {this.state.quarantine.length}
+                            </h1>
+                          </Card.Body>
+                        </OverlayTrigger>
                       </Card>
                     </Col>
                     <Col md={6}>
@@ -327,51 +335,53 @@ class Dashboard extends React.Component {
                         className="shadow"
                         style={{ minHeight: "12rem", marginBottom: "1rem" }}
                       >
-                         <OverlayTrigger
-                    placement="bottom"
-                    overlay={
-                      <Tooltip>
-                        Based on screening submissions, Compli has generated a risk assessment. Each percentage indicates the proportion of screenings that indicate either low, medium or high risk employees
-                      </Tooltip>
-                    }
-                  >
-                <Card.Body>
-                       
-                       <Card.Title>Predicted Risk Profile</Card.Title>
-                       <Card.Subtitle className="mb-2 text-muted">
-                         Employee Screening Submissions
-                       </Card.Subtitle>
-                       <Row className="justify-content-center">
-                         <Col md={4}>
-                           <h1>
-                             <Badge pill variant={"success"}>
-                               {Number(this.state.profile.Low).toFixed(1)}%
-                             </Badge>
-                           </h1>
-                         </Col>
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={
+                            <Tooltip>
+                              Based on screening submissions, Compli has
+                              generated a risk assessment. Each percentage
+                              indicates the proportion of screenings that
+                              indicate either low, medium or high risk employees
+                            </Tooltip>
+                          }
+                        >
+                          <Card.Body>
+                            <Card.Title>Predicted Risk Profile</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">
+                              Employee Screening Submissions
+                            </Card.Subtitle>
+                            <Row className="justify-content-center">
+                              <Col md={4}>
+                                <h1>
+                                  <Badge pill variant={"success"}>
+                                    {Number(this.state.profile.Low).toFixed(1)}%
+                                  </Badge>
+                                </h1>
+                              </Col>
 
-                         <Col md={4}>
-                           <h1>
-                             <Badge
-                               pill
-                               style={{ color: "white" }}
-                               variant={"warning"}
-                             >
-                               {Number(this.state.profile.Med).toFixed(1)}%
-                             </Badge>
-                           </h1>
-                         </Col>
-                         <Col md={4}>
-                           <h1>
-                             <Badge pill variant={"danger"}>
-                               {Number(this.state.profile.High).toFixed(1)}%
-                             </Badge>
-                           </h1>
-                         </Col>
-                       </Row>
-                     </Card.Body>
-                  </OverlayTrigger>
-                       
+                              <Col md={4}>
+                                <h1>
+                                  <Badge
+                                    pill
+                                    style={{ color: "white" }}
+                                    variant={"warning"}
+                                  >
+                                    {Number(this.state.profile.Med).toFixed(1)}%
+                                  </Badge>
+                                </h1>
+                              </Col>
+                              <Col md={4}>
+                                <h1>
+                                  <Badge pill variant={"danger"}>
+                                    {Number(this.state.profile.High).toFixed(1)}
+                                    %
+                                  </Badge>
+                                </h1>
+                              </Col>
+                            </Row>
+                          </Card.Body>
+                        </OverlayTrigger>
                       </Card>
                     </Col>
                   </Row>
@@ -383,25 +393,25 @@ class Dashboard extends React.Component {
                         style={{ minHeight: "20rem", marginBottom: "1rem" }}
                       >
                         <OverlayTrigger
-                    placement="bottom"
-                    overlay={
-                      <Tooltip>
-                        A range of daily symptoms experienced by employees in-office today. 
-                      </Tooltip>
-                    }
-                  >
-                   <Card.Body>
-                          <Card.Title>Daily Symptoms</Card.Title>
-                          <Row className="justify-content-center">
-                            <Col md="auto" sm="auto">
-                              {this.state.filtered.length !== 0 ? (
-                                <Chart symptoms={this.state.symptoms} />
-                              ) : null}
-                            </Col>
-                          </Row>
-                        </Card.Body>
-                  </OverlayTrigger>
-                        
+                          placement="bottom"
+                          overlay={
+                            <Tooltip>
+                              A range of daily symptoms experienced by employees
+                              in-office today.
+                            </Tooltip>
+                          }
+                        >
+                          <Card.Body>
+                            <Card.Title>Daily Symptoms</Card.Title>
+                            <Row className="justify-content-center">
+                              <Col md="auto" sm="auto">
+                                {this.state.filtered.length !== 0 ? (
+                                  <Chart symptoms={this.state.symptoms} />
+                                ) : null}
+                              </Col>
+                            </Row>
+                          </Card.Body>
+                        </OverlayTrigger>
                       </Card>
                     </Col>
                     <Col md={3}>
@@ -411,29 +421,31 @@ class Dashboard extends React.Component {
                         style={{ height: "20rem", marginBottom: "1rem" }}
                       >
                         <OverlayTrigger
-                    placement="bottom"
-                    overlay={
-                      <Tooltip>
-                        {this.state.occupancy} employees are currently working from the office.
-                      </Tooltip>
-                    }
-                  >
-                   <Card.Body>
-                          <Card.Title>In-Office Employees</Card.Title>
-                          <Card.Subtitle className="mb-2 text-muted">
-                            {(this.state.occupancy * 100) / 50 < 50
-                              ? "Below Capacity"
-                              : "Above Capacity"}
-                          </Card.Subtitle>
-                          <h1 style={{ fontSize: "6rem", textAlign: "center" }}>
-                            {this.state.occupancy}
-                          </h1>
-                          <OccupancyChart
-                            data={{ occupancy: this.state.occupancy }}
-                          />
-                        </Card.Body>
-                  </OverlayTrigger>
-                       
+                          placement="bottom"
+                          overlay={
+                            <Tooltip>
+                              {this.state.occupancy} employees are currently
+                              working from the office.
+                            </Tooltip>
+                          }
+                        >
+                          <Card.Body>
+                            <Card.Title>In-Office Employees</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">
+                              {(this.state.occupancy * 100) / 50 < 50
+                                ? "Below Capacity"
+                                : "Above Capacity"}
+                            </Card.Subtitle>
+                            <h1
+                              style={{ fontSize: "6rem", textAlign: "center" }}
+                            >
+                              {this.state.occupancy}
+                            </h1>
+                            <OccupancyChart
+                              data={{ occupancy: this.state.occupancy }}
+                            />
+                          </Card.Body>
+                        </OverlayTrigger>
                       </Card>
                     </Col>
                     <Col md={3}>
@@ -441,32 +453,38 @@ class Dashboard extends React.Component {
                         border="light"
                         className="shadow"
                         style={{ height: "20rem", marginBottom: "1rem" }}
-                      ><OverlayTrigger
-                      placement="bottom"
-                      overlay={
-                        <Tooltip>
-                          It has been predicted that occupancy levels of in-office employees will be around {this.state.predictedOccupancy}.
-                        </Tooltip>
-                      }
-                    >
-                   <Card.Body>
-                          <Card.Title>Predicted Occupancy</Card.Title>
-                          <Card.Subtitle className="mb-2 text-muted">
-                            {(this.state.predictedOccupancy * 100) / 50 < 50
-                              ? "Below Capacity"
-                              : "Above Capacity"}
-                          </Card.Subtitle>
-                          <h1 style={{ fontSize: "6rem", textAlign: "center" }}>
-                            {Number(this.state.predictedOccupancy).toPrecision(
-                              2
-                            )}
-                          </h1>
-                          <OccupancyChart
-                            data={{ occupancy: this.state.predictedOccupancy }}
-                          />
-                        </Card.Body>
-                    </OverlayTrigger>
-                        
+                      >
+                        <OverlayTrigger
+                          placement="bottom"
+                          overlay={
+                            <Tooltip>
+                              It has been predicted that occupancy levels of
+                              in-office employees will be around{" "}
+                              {this.state.predictedOccupancy}.
+                            </Tooltip>
+                          }
+                        >
+                          <Card.Body>
+                            <Card.Title>Predicted Occupancy</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">
+                              {(this.state.predictedOccupancy * 100) / 50 < 50
+                                ? "Below Capacity"
+                                : "Above Capacity"}
+                            </Card.Subtitle>
+                            <h1
+                              style={{ fontSize: "6rem", textAlign: "center" }}
+                            >
+                              {Number(
+                                this.state.predictedOccupancy
+                              ).toPrecision(2)}
+                            </h1>
+                            <OccupancyChart
+                              data={{
+                                occupancy: this.state.predictedOccupancy,
+                              }}
+                            />
+                          </Card.Body>
+                        </OverlayTrigger>
                       </Card>
                     </Col>
                   </Row>

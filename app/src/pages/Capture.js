@@ -177,6 +177,7 @@ export default class Capture extends Component {
     const payload = {
       option: option,
       empID: this.state.empID,
+      to: "kialanpillay@gmail.com",
     };
     const endpoint = `https://compli-api.herokuapp.com/notification/`;
     fetch(endpoint, {
