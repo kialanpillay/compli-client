@@ -76,8 +76,8 @@ export default class Capture extends Component {
       uploadScreening: false,
       upload: false,
       empDays: 10,
-      empSigns: 0,
-      empFever: 1,
+      empSigns: "0",
+      empFever: "0",
       canReturn: 0,
     };
     this.callbackChecklist = this.callbackChecklist.bind(this);
@@ -161,7 +161,7 @@ export default class Capture extends Component {
   };
 
   employeeReturnCheck = () => {
-    if (this.state.empFever == 0 && this.state.empSigns == 0) {
+    if (Number(this.state.empFever) == 0 && Number(this.state.empSigns) == 0) {
       this.setState({ canReturn: 1 });
     } else {
       this.setState({ canReturn: 0 });
@@ -425,12 +425,12 @@ export default class Capture extends Component {
                             name="signs"
                           >
                             <FormControlLabel
-                              value={0}
+                              value={"0"}
                               control={<Radio style={{ color: "#17c671" }} />}
                               label="No"
                             />
                             <FormControlLabel
-                              value={1}
+                              value={"1"}
                               control={<Radio style={{ color: "#17c671" }} />}
                               label="Yes"
                             />
@@ -452,12 +452,12 @@ export default class Capture extends Component {
                             onChange={this.handleChangeFever}
                           >
                             <FormControlLabel
-                              value={0}
+                              value={"0"}
                               control={<Radio style={{ color: "#17c671" }} />}
                               label="True"
                             />
                             <FormControlLabel
-                              value={1}
+                              value={"1"}
                               control={<Radio style={{ color: "#17c671" }} />}
                               label="False"
                             />
