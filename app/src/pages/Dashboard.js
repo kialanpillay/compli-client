@@ -1,5 +1,7 @@
 import React from "react";
 import { Container, Col, Row, Card } from "react-bootstrap";
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Badge from "react-bootstrap/Badge";
 import Spinner from "react-bootstrap/Spinner";
 import Chart from "../components/Chart";
@@ -260,8 +262,15 @@ class Dashboard extends React.Component {
                         border="light"
                         className="shadow"
                         style={{ height: "12rem", marginBottom: "1rem" }}
-                      >
-                        <Card.Body>
+                      >  <OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          The average tempreture of in-office employees today is {this.state.avgTemp}.
+                        </Tooltip>
+                      }
+                    >
+                      <Card.Body>
                           <Card.Title>Average Temperature</Card.Title>
                           <Card.Subtitle className="mb-2 text-muted">
                             {this.state.avgTemp > 37.5 ? "Abnormal" : "Normal"}
@@ -278,6 +287,8 @@ class Dashboard extends React.Component {
                             {Number(this.state.avgTemp).toFixed(1)}
                           </h1>
                         </Card.Body>
+                    </OverlayTrigger>
+                        
                       </Card>
                     </Col>
 
@@ -287,7 +298,16 @@ class Dashboard extends React.Component {
                         className="shadow"
                         style={{ height: "12rem", marginBottom: "1rem" }}
                       >
-                        <Card.Body>
+                          <OverlayTrigger
+                    placement="bottom"
+                    overlay={
+                      <Tooltip>
+                       {this.state.isolation} employee is currently in quarantine for more than 10 days. {this.state.quarantine.length}  employees have completed their quarantine.
+                      </Tooltip>
+                    }
+                  >
+                    <Card.Body>
+                          
                           <Card.Title>Quarantine</Card.Title>
                           <Card.Subtitle className="mb-2 text-muted">
                             {"Overdue/Total Employees"}
@@ -297,6 +317,8 @@ class Dashboard extends React.Component {
                             {this.state.quarantine.length}
                           </h1>
                         </Card.Body>
+                  </OverlayTrigger>
+                       
                       </Card>
                     </Col>
                     <Col md={6}>
@@ -305,40 +327,51 @@ class Dashboard extends React.Component {
                         className="shadow"
                         style={{ minHeight: "12rem", marginBottom: "1rem" }}
                       >
-                        <Card.Body>
-                          <Card.Title>Predicted Risk Profile</Card.Title>
-                          <Card.Subtitle className="mb-2 text-muted">
-                            Employee Screening Submissions
-                          </Card.Subtitle>
-                          <Row className="justify-content-center">
-                            <Col md={4}>
-                              <h1>
-                                <Badge pill variant={"success"}>
-                                  {Number(this.state.profile.Low).toFixed(1)}%
-                                </Badge>
-                              </h1>
-                            </Col>
+                         <OverlayTrigger
+                    placement="bottom"
+                    overlay={
+                      <Tooltip>
+                        Based on screening submissions, Compli has generated a risk assessment. Each percentage indicates the proportion of screenings that indicate either low, medium or high risk employees
+                      </Tooltip>
+                    }
+                  >
+                <Card.Body>
+                       
+                       <Card.Title>Predicted Risk Profile</Card.Title>
+                       <Card.Subtitle className="mb-2 text-muted">
+                         Employee Screening Submissions
+                       </Card.Subtitle>
+                       <Row className="justify-content-center">
+                         <Col md={4}>
+                           <h1>
+                             <Badge pill variant={"success"}>
+                               {Number(this.state.profile.Low).toFixed(1)}%
+                             </Badge>
+                           </h1>
+                         </Col>
 
-                            <Col md={4}>
-                              <h1>
-                                <Badge
-                                  pill
-                                  style={{ color: "white" }}
-                                  variant={"warning"}
-                                >
-                                  {Number(this.state.profile.Med).toFixed(1)}%
-                                </Badge>
-                              </h1>
-                            </Col>
-                            <Col md={4}>
-                              <h1>
-                                <Badge pill variant={"danger"}>
-                                  {Number(this.state.profile.High).toFixed(1)}%
-                                </Badge>
-                              </h1>
-                            </Col>
-                          </Row>
-                        </Card.Body>
+                         <Col md={4}>
+                           <h1>
+                             <Badge
+                               pill
+                               style={{ color: "white" }}
+                               variant={"warning"}
+                             >
+                               {Number(this.state.profile.Med).toFixed(1)}%
+                             </Badge>
+                           </h1>
+                         </Col>
+                         <Col md={4}>
+                           <h1>
+                             <Badge pill variant={"danger"}>
+                               {Number(this.state.profile.High).toFixed(1)}%
+                             </Badge>
+                           </h1>
+                         </Col>
+                       </Row>
+                     </Card.Body>
+                  </OverlayTrigger>
+                       
                       </Card>
                     </Col>
                   </Row>
@@ -349,7 +382,15 @@ class Dashboard extends React.Component {
                         className="shadow"
                         style={{ minHeight: "20rem", marginBottom: "1rem" }}
                       >
-                        <Card.Body>
+                        <OverlayTrigger
+                    placement="bottom"
+                    overlay={
+                      <Tooltip>
+                        A range of daily symptoms experienced by employees in-office today. 
+                      </Tooltip>
+                    }
+                  >
+                   <Card.Body>
                           <Card.Title>Daily Symptoms</Card.Title>
                           <Row className="justify-content-center">
                             <Col md="auto" sm="auto">
@@ -359,6 +400,8 @@ class Dashboard extends React.Component {
                             </Col>
                           </Row>
                         </Card.Body>
+                  </OverlayTrigger>
+                        
                       </Card>
                     </Col>
                     <Col md={3}>
@@ -367,7 +410,15 @@ class Dashboard extends React.Component {
                         className="shadow"
                         style={{ height: "20rem", marginBottom: "1rem" }}
                       >
-                        <Card.Body>
+                        <OverlayTrigger
+                    placement="bottom"
+                    overlay={
+                      <Tooltip>
+                        {this.state.occupancy} employees are currently working from the office.
+                      </Tooltip>
+                    }
+                  >
+                   <Card.Body>
                           <Card.Title>In-Office Employees</Card.Title>
                           <Card.Subtitle className="mb-2 text-muted">
                             {(this.state.occupancy * 100) / 50 < 50
@@ -381,6 +432,8 @@ class Dashboard extends React.Component {
                             data={{ occupancy: this.state.occupancy }}
                           />
                         </Card.Body>
+                  </OverlayTrigger>
+                       
                       </Card>
                     </Col>
                     <Col md={3}>
@@ -388,8 +441,15 @@ class Dashboard extends React.Component {
                         border="light"
                         className="shadow"
                         style={{ height: "20rem", marginBottom: "1rem" }}
-                      >
-                        <Card.Body>
+                      ><OverlayTrigger
+                      placement="bottom"
+                      overlay={
+                        <Tooltip>
+                          It has been predicted that occupancy levels of in-office employees will be around {this.state.predictedOccupancy}.
+                        </Tooltip>
+                      }
+                    >
+                   <Card.Body>
                           <Card.Title>Predicted Occupancy</Card.Title>
                           <Card.Subtitle className="mb-2 text-muted">
                             {(this.state.predictedOccupancy * 100) / 50 < 50
@@ -405,6 +465,8 @@ class Dashboard extends React.Component {
                             data={{ occupancy: this.state.predictedOccupancy }}
                           />
                         </Card.Body>
+                    </OverlayTrigger>
+                        
                       </Card>
                     </Col>
                   </Row>
