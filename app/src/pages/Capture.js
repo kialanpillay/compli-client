@@ -378,41 +378,49 @@ export default class Capture extends Component {
                               callback={this.callbackChecklistCert}
                             />
                           </Form.Group>
-                          <Button
-                            className="ubutton"
-                            onClick={() => this.postScreening()}
-                            disabled={this.state.certification.length === 0}
-                            style={{
-                              marginLeft: "15px",
-                              backgroundColor: "#17c671",
-                              border: "#17c671",
-                              height: "50px",
-                              width: "90px",
-                            }}
-                          >
-                            Submit
-                          </Button>
-                          <Alert
-                            show={this.state.uploadScreening}
-                            variant={this.dailyCheck() ? "success" : "warning"}
-                            onClose={() => this.alertOnClose()}
-                            dismissible
-                            style={{
-                              display: "flex",
-                              marginLeft: "0.5rem",
-                              marginRight: "0.5rem",
-                              marginTop: "0.5rem",
-                            }}
-                          >
-                            {this.dailyCheck()
-                              ? "Form Submitted."
-                              : "Form Submitted. You will be contacted soon."}
-                            <CheckIcon
-                              style={{
-                                marginRight: "5px",
-                              }}
-                            />
-                          </Alert>
+                          <Row>
+                            <Col md={2}>
+                              <Button
+                                className="ubutton"
+                                onClick={() => this.postScreening()}
+                                disabled={this.state.certification.length === 0}
+                                style={{
+                                  marginLeft: "15px",
+                                  backgroundColor: "#17c671",
+                                  border: "#17c671",
+                                  height: "50px",
+                                  width: "90px",
+                                }}
+                              >
+                                Submit
+                              </Button>
+                            </Col>
+                            <Col md={10}>
+                              <Alert
+                                show={this.state.uploadScreening}
+                                variant={
+                                  this.dailyCheck() ? "success" : "warning"
+                                }
+                                onClose={() => this.alertOnClose()}
+                                dismissible
+                                style={{
+                                  display: "flex",
+                                  marginLeft: "0.5rem",
+                                  marginRight: "0.5rem",
+                                  marginTop: "0.5rem",
+                                }}
+                              >
+                                {this.dailyCheck()
+                                  ? "Form Submitted."
+                                  : "Form Submitted. You will be contacted soon."}
+                                <CheckIcon
+                                  style={{
+                                    marginRight: "5px",
+                                  }}
+                                />
+                              </Alert>
+                            </Col>
+                          </Row>
                         </div>
                       </div>
                     </Form>
@@ -543,38 +551,46 @@ export default class Capture extends Component {
                               callback={this.callbackChecklistCert}
                             />
                           </Form.Group>
-                          <Button
-                            className="ubutton"
-                            onClick={() => this.postHealthCheck()}
-                            disabled={this.state.certification.length === 0}
-                            style={{
-                              marginLeft: "15px",
-                              backgroundColor: "#17c671",
-                              border: "#17c671",
-                              height: "50px",
-                              width: "90px",
-                            }}
-                          >
-                            Submit
-                          </Button>
-                          <Alert
-                            show={this.state.upload}
-                            variant={
-                              this.state.canReturn == 0 ? "danger" : "success"
-                            }
-                            onClose={() => this.alertOnClose()}
-                            dismissible
-                            style={{
-                              display: "flex",
-                              marginLeft: "0.5rem",
-                              marginRight: "0.5rem",
-                              marginTop: "0.5rem",
-                            }}
-                          >
-                            {this.state.canReturn == 0
-                              ? "Form Submitted. You are required to remain at home."
-                              : "Form Submitted. You may return to work."}
-                          </Alert>
+                          <Row>
+                            <Col md={2}>
+                              <Button
+                                className="ubutton"
+                                onClick={() => this.postHealthCheck()}
+                                disabled={this.state.certification.length === 0}
+                                style={{
+                                  marginLeft: "15px",
+                                  backgroundColor: "#17c671",
+                                  border: "#17c671",
+                                  height: "50px",
+                                  width: "90px",
+                                }}
+                              >
+                                Submit
+                              </Button>
+                            </Col>
+                            <Col md={10}>
+                              <Alert
+                                show={this.state.upload}
+                                variant={
+                                  this.state.canReturn == 0
+                                    ? "danger"
+                                    : "success"
+                                }
+                                onClose={() => this.alertOnClose()}
+                                dismissible
+                                style={{
+                                  display: "flex",
+                                  marginLeft: "0.5rem",
+                                  marginRight: "0.5rem",
+                                  marginTop: "0.5rem",
+                                }}
+                              >
+                                {this.state.canReturn == 0
+                                  ? "Form Submitted. You are required to remain at home."
+                                  : "Form Submitted. You may return to work."}
+                              </Alert>
+                            </Col>
+                          </Row>
                         </div>
                       </div>
                     </Form>
