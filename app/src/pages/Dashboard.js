@@ -8,6 +8,8 @@ import Spinner from "react-bootstrap/Spinner";
 import Chart from "../components/Chart";
 import OccupancyChart from "../components/OccupancyChart";
 import _ from "lodash";
+import { withAuth0 } from "@auth0/auth0-react";
+import LoginButton from "../components/LoginButton";
 
 // eslint-disable-next-line
 Date.prototype.subtractDays = function (date, days) {
@@ -24,7 +26,7 @@ Date.prototype.sameDay = function (d) {
   );
 };
 
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -173,14 +175,13 @@ export default class Dashboard extends React.Component {
 
   processQuarantineRecords = () => {
     const records = this.state.quarantine.filter((element) => element[5] > 10);
-    console.log(records.length);
     this.setState({
       isolation: records.length,
     });
   };
 
   processPredictions = () => {
-    const risk = this.state.predictedRisk;
+    let risk = this.state.predictedRisk;
     if (risk[0] < risk[2]) {
       risk = risk.reverse();
     }
@@ -194,19 +195,24 @@ export default class Dashboard extends React.Component {
   };
 
   render() {
-    return (
-      <div className="App">
-        <Container>
-          <Row className="justify-content-center" style={{ marginTop: "2rem" }}>
-            <Col md="auto">
-              <p style={{ color: "white", fontSize: "4rem", fontWeight: 300 }}>
-                Dashboard
-              </p>
-            </Col>
-          </Row>
-          {this.state.records.length === 0 ? (
-            <Spinner animation="border" role="status"></Spinner>
-          ) : (
+    const { user } = this.props.auth0;
+    if (user!== null) {
+      return (
+        <div className="App">
+          <Container>
+            <Row
+              className="justify-content-center"
+              style={{ marginTop: "2rem" }}
+            >
+              <Col md="auto">
+                <p
+                  style={{ color: "white", fontSize: "4rem", fontWeight: 300 }}
+                >
+                  Dashboard
+                </p>
+              </Col>
+            </Row>
+
             <div>
               <Row style={{ marginTop: "1rem" }}>
                 <Col md={3}>
@@ -332,9 +338,13 @@ export default class Dashboard extends React.Component {
                 </Col>
               </Row>
             </div>
-          )}
-        </Container>
-      </div>
-    );
+          </Container>
+        </div>
+      );
+    } else {
+      return <LoginButton />;
+    }
   }
 }
+
+export default withAuth0(Dashboard);
