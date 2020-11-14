@@ -30,6 +30,7 @@ export default class Dashboard extends React.Component {
     super(props);
     this.state = {
       records: [],
+      quarantine: [],
       filtered: [],
       predictedRisk: [],
       predictedOccupancy: 1,
@@ -61,7 +62,36 @@ export default class Dashboard extends React.Component {
   componentDidMount() {
     this.getScreeningRecords();
     this.getPredictions();
+    this.getQuarantineRecords();
   }
+
+  sendNotification() {
+    if (this.state.occupancy > 50) {
+      this.postNotification("Occupancy");
+    }
+    if (this.state.profile.High > 20) {
+      this.postNotification("Risk");
+    }
+  }
+
+  postNotification = (option) => {
+    const payload = {
+      option: option,
+    };
+    const endpoint = `https://compli-api.herokuapp.com/notification/`;
+    fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((response) => response.json())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   getScreeningRecords = () => {
     const endpoint = `https://compli-api.herokuapp.com/screening/`;
@@ -80,6 +110,23 @@ export default class Dashboard extends React.Component {
       });
   };
 
+  getQuarantineRecords = () => {
+    const endpoint = `https://compli-api.herokuapp.com/quarantine/`;
+    fetch(endpoint, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        this.setState({
+          quarantine: response.records,
+        });
+      })
+      .then(() => this.processQuarantineRecords())
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   getPredictions = () => {
     const endpoint = `https://compli-api.herokuapp.com/prediction/`;
     fetch(endpoint, {
@@ -88,11 +135,12 @@ export default class Dashboard extends React.Component {
       .then((response) => response.json())
       .then((response) => {
         this.setState({
-          predictedRisk: response.risk.sort().reverse(),
+          predictedRisk: response.risk.sort(),
           predictedOccupancy: response.occupancy,
         });
       })
       .then(() => this.processPredictions())
+      .then(() => this.sendNotification())
       .catch((err) => {
         console.log(err);
       });
@@ -117,15 +165,26 @@ export default class Dashboard extends React.Component {
     });
 
     this.setState({
-      avgTemp: temperature / records.length,
+      avgTemp: records.length === 0 ? 0 : temperature / records.length,
       occupancy: records.length,
       filtered: records,
       symptoms: symptoms,
     });
   };
 
+  processQuarantineRecords = () => {
+    const records = this.state.quarantine.filter((element) => element[5] > 10);
+    console.log(records.length);
+    this.setState({
+      isolation: records.length,
+    });
+  };
+
   processPredictions = () => {
     const risk = this.state.predictedRisk;
+    if (risk[0] < risk[2]) {
+      risk = risk.reverse();
+    }
     const sum = _.sum(risk);
     const profile = {
       Low: (risk[0] / sum) * 100,
@@ -183,13 +242,13 @@ export default class Dashboard extends React.Component {
                 <Col md={3}>
                   <Card border="light" className = "shadow" style={{ height: "12rem", marginBottom: "1rem" }}>
                     <Card.Body>
-                      <Card.Title>Isolated Employees</Card.Title>
+                      <Card.Title>Quarantine</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
-                        {this.state.isolation === 0
-                          ? "Maximum Personnel"
-                          : "Reduced Personnel"}
+                        {"Overdue/Total Employees"}
                       </Card.Subtitle>
-                      <h1 style={{ fontSize: "5rem" }}>0</h1>
+                      <h1 style={{ fontSize: "5rem" }}>
+                        {this.state.isolation}/{this.state.quarantine.length}
+                      </h1>
                     </Card.Body>
                   </Card>
                 </Col>

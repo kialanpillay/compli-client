@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Dashboard from "./pages/Dashboard";
 import Landing from "./pages/Landing";
 import Test from "./pages/Test";
+import Capture from "./pages/Capture";
 
 export default function App() {
   return (
@@ -18,8 +19,8 @@ export default function App() {
           <Route exact path="/dashboard">
             <Dashboard />
           </Route>
-          <Route exact path="/test">
-            <Test />
+          <Route exact path="/capture">
+            <Capture />
           </Route>
         </Switch>
       </Router>
