@@ -22,6 +22,10 @@ export default function App() {
           <Route exact path="/capture">
             <Capture />
           </Route>
+          <Route exact path="/test">
+            <Test />
+          </Route>
+          
         </Switch>
       </Router>
     </div>
