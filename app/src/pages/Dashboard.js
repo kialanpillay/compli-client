@@ -476,7 +476,7 @@ class Dashboard extends React.Component {
                             >
                               {Number(
                                 this.state.predictedOccupancy
-                              ).toPrecision(2)}
+                              ).toPrecision(1)}
                             </h1>
                             <OccupancyChart
                               data={{
