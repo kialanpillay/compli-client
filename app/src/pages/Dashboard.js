@@ -530,7 +530,7 @@ class Dashboard extends React.Component {
                             fontSize: "5rem",
                           }}
                         >
-                          0
+                          404
                         </h1>
                       </Card.Body>
                     </Card>
@@ -551,7 +551,7 @@ class Dashboard extends React.Component {
                         <Card.Subtitle className="mb-2 text-muted">
                           {"Overdue/Total Employees"}
                         </Card.Subtitle>
-                        <h1 style={{ fontSize: "5rem" }}>0/0</h1>
+                        <h1 style={{ fontSize: "4rem" }}>0/0</h1>
                       </Card.Body>
                     </Card>
                   </Col>
