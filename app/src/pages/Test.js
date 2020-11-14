@@ -8,17 +8,9 @@ import Sidebar from "../components/Sidebar";
 
 function Test() {
     return (
-        <div>
-            <Row>
-                <Col md={2}>
-            <Sidebar/>
-            </Col>
-            <Col>
-            </Col>
-            </Row>
-            
-           
-        </div>
+        <div className="App">
+        <Sidebar />
+      </div>
     );
 }
 

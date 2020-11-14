@@ -146,11 +146,11 @@ export default class Capture extends Component {
   render() {
     return (
       <div className="p-Div" >
-        <Row>
+        <Row >
           <Col md={2}>
           <Sidebar />
           </Col>
-          <Col md={10}>
+          <Col className="heightfix" md={10}  >
           <Tabs defaultActiveKey="capture" style={{ marginTop: "2rem" }}>
             <Tab eventKey="capture" title="Employee Screening">
               <div className="container u-form">
@@ -179,7 +179,7 @@ export default class Capture extends Component {
                     <div className="ulabel">Symptoms</div>
                     <div className="ucontent-div">
                       <Row>
-                        <Col md={4}>
+                        <Col md={6}>
                           <Form.Group as={Col} controlId="symptonsChecklist">
                             <Form.Label>Symptoms Today</Form.Label>
 
@@ -192,7 +192,7 @@ export default class Capture extends Component {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={4}>
+                        <Col md={6}>
                           <img
                             src={"./epidemic.png"}
                             width="300"

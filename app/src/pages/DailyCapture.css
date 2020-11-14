@@ -5,9 +5,17 @@
     margin-bottom: 4rem;
   }
   */
+  .heightfix{
+    height: 100vh;
+    overflow: auto;
+  }
   .u-div {
     display: flex;
     justify-content: space-around;
+  }
+
+  .ubutton{
+    margin-bottom:2rem;
   }
   
   .ucontent-div {
@@ -37,4 +45,12 @@
   }
   hr {
     border-color:white;
+}
+
+.nav-link{
+  color: #17c671;
+}
+
+.nav-link:hover{
+  color: #000;
 }
