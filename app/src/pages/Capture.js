@@ -195,6 +195,7 @@ export default class Capture extends Component {
   render() {
     return (
       <div className="p-Div" >
+        <div className="hf" >
         <Row >
           <Col md={2}>
           <Sidebar />
@@ -536,6 +537,7 @@ export default class Capture extends Component {
           </Tabs>
           </Col>
           </Row>
+          </div>
       </div>
     );
   }

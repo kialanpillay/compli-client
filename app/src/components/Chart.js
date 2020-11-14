@@ -20,7 +20,7 @@ export default class Chart extends PureComponent {
       <div style={{ overflow: "scroll" }}>
         <BarChart
           width={450}
-          height={250}
+          height={240}
           data={data}
           margin={{ top: 50, right: 0, left: -20, bottom: 0 }}
         >
