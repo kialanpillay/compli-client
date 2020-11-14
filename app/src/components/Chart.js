@@ -28,7 +28,7 @@ export default class Chart extends PureComponent {
           <XAxis dataKey="Symptom" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="Count" fill="orange" />
+          <Bar dataKey="Count" fill="#ffb347" />
         </BarChart>
       </div>
     );
