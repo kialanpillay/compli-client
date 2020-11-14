@@ -234,7 +234,7 @@ export default class Capture extends Component {
                         </Col>
                         <Col md={8}>
                           <img
-                            src={"./epidemic.png"}
+                            src={"./Covid.png"}
                             width="400"
                             alt="Graphic"
                           ></img>
