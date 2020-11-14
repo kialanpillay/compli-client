@@ -219,7 +219,7 @@ export default class Capture extends Component {
                     <div className="ulabel">Symptoms</div>
                     <div className="ucontent-div">
                       <Row>
-                        <Col md={6}>
+                        <Col md={4}>
                           <Form.Group as={Col} controlId="symptonsChecklist">
                             <Form.Label>Symptoms Today</Form.Label>
 
@@ -232,10 +232,10 @@ export default class Capture extends Component {
                             />
                           </Form.Group>
                         </Col>
-                        <Col md={6}>
+                        <Col md={8}>
                           <img
                             src={"./epidemic.png"}
-                            width="500"
+                            width="400"
                             alt="Graphic"
                           ></img>
                         </Col>
