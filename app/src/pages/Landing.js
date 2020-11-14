@@ -3,6 +3,8 @@ import "./landing.css";
 import { Col, Row, Container } from "react-bootstrap";
 //====== images ======
 import iphone from "../img/iphone.png";
+import logo from "../img/logo.png";
+import heart from "../img/heart.png";
 
 function Landing() {
   return (
@@ -11,7 +13,7 @@ function Landing() {
         <div class="container">
           <nav class="navbar navbar-expand-lg navbar-dark pt-4 px-0">
             <a class="navbar-brand mr-5" href="#">
-              <img src="" class="mr-2" alt="" />
+              <img className="logo" src={heart} class="mr-2" alt="" />
               Complì
             </a>
             <button
