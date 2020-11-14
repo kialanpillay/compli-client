@@ -1,8 +1,7 @@
 import React from "react";
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
+import {Container, Col, Row} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
+
 import Badge from "react-bootstrap/Badge";
 import Spinner from "react-bootstrap/Spinner";
 import Chart from "../components/Chart";
@@ -10,6 +9,10 @@ import OccupancyChart from "../components/OccupancyChart";
 import _ from "lodash";
 import { withAuth0 } from "@auth0/auth0-react";
 import LoginButton from "../components/LoginButton";
+
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+import './dashboard.css';
 
 // eslint-disable-next-line
 Date.prototype.subtractDays = function (date, days) {
@@ -195,28 +198,29 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    const { user } = this.props.auth0;
-    if (user!== null) {
-      return (
-        <div className="App">
-          <Container>
-            <Row
-              className="justify-content-center"
-              style={{ marginTop: "2rem" }}
-            >
-              <Col md="auto">
-                <p
-                  style={{ color: "white", fontSize: "4rem", fontWeight: 300 }}
-                >
-                  Dashboard
-                </p>
-              </Col>
-            </Row>
-
+    return (
+      <div  className="page">
+        
+        <Row style={{ width: "100%" }}>
+          <Col md={2}>
+            <Sidebar/>
+          </Col>
+          
+          <Col md={10} >
+          {this.state.records.length === 0 ? (
+            <Spinner  animation="border" role="status"></Spinner>
+          ) : (
             <div>
-              <Row style={{ marginTop: "1rem" }}>
+              <Row className="dash-heading">
+                <div className="blankbar"></div>
+                <Container >
+                 <h2>Dashboard</h2>
+                </Container>
+              </Row>
+              <Row className="dashboard" style={{ marginTop: "1rem" }}>
+             
                 <Col md={3}>
-                  <Card style={{ minHeight: "13rem", marginBottom: "1rem" }}>
+                  <Card border="light" className = "shadow" style={{ height: "12rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Average Temperature</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -224,11 +228,12 @@ class Dashboard extends React.Component {
                       </Card.Subtitle>
                       <h1
                         style={{
+                          
                           fontSize: "5rem",
                           color:
                             this.state.avgTemp > 37.5
                               ? "orange"
-                              : "rgb(67,169,40)",
+                              : "#17c671",
                         }}
                       >
                         {Number(this.state.avgTemp).toFixed(1)}
@@ -238,7 +243,7 @@ class Dashboard extends React.Component {
                 </Col>
 
                 <Col md={3}>
-                  <Card style={{ minHeight: "13rem", marginBottom: "1rem" }}>
+                  <Card border="light" className = "shadow" style={{ height: "12rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Quarantine</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -251,7 +256,7 @@ class Dashboard extends React.Component {
                   </Card>
                 </Col>
                 <Col md={6}>
-                  <Card style={{ minHeight: "13rem", marginBottom: "1rem" }}>
+                  <Card border="light" className = "shadow" style={{ minHeight: "12rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Predicted Risk Profile</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -268,7 +273,7 @@ class Dashboard extends React.Component {
 
                         <Col md={4}>
                           <h1>
-                            <Badge pill variant={"warning"}>
+                            <Badge pill style={{ color: "white", }}variant={"warning"}>
                               {Number(this.state.profile.Med).toFixed(1)}%
                             </Badge>
                           </h1>
@@ -287,7 +292,7 @@ class Dashboard extends React.Component {
               </Row>
               <Row style={{ marginTop: "1rem" }}>
                 <Col md={6}>
-                  <Card style={{ minHeight: "21rem", marginBottom: "1rem" }}>
+                  <Card border="light" className = "shadow" style={{ minHeight: "20rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Daily Symptoms</Card.Title>
                       <Row className="justify-content-center">
@@ -301,7 +306,7 @@ class Dashboard extends React.Component {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card style={{ minHeight: "21rem", marginBottom: "1rem" }}>
+                  <Card border="light" className = "shadow" style={{ height: "20rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>In-Office Employees</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -309,7 +314,7 @@ class Dashboard extends React.Component {
                           ? "Below Capacity"
                           : "Above Capacity"}
                       </Card.Subtitle>
-                      <h1 style={{ fontSize: "6rem" }}>
+                      <h1 style={{ fontSize: "6rem", textAlign:"center" }}>
                         {this.state.occupancy}
                       </h1>
                       <OccupancyChart
@@ -319,7 +324,7 @@ class Dashboard extends React.Component {
                   </Card>
                 </Col>
                 <Col md={3}>
-                  <Card style={{ minHeight: "21rem", marginBottom: "1rem" }}>
+                  <Card border="light" className = "shadow" style={{ height: "20rem", marginBottom: "1rem" }}>
                     <Card.Body>
                       <Card.Title>Predicted Occupancy</Card.Title>
                       <Card.Subtitle className="mb-2 text-muted">
@@ -327,7 +332,7 @@ class Dashboard extends React.Component {
                           ? "Below Capacity"
                           : "Above Capacity"}
                       </Card.Subtitle>
-                      <h1 style={{ fontSize: "6rem" }}>
+                      <h1 style={{ fontSize: "6rem" ,textAlign:"center"}}>
                         {Number(this.state.predictedOccupancy).toPrecision(2)}
                       </h1>
                       <OccupancyChart
@@ -337,13 +342,15 @@ class Dashboard extends React.Component {
                   </Card>
                 </Col>
               </Row>
+              
             </div>
-          </Container>
-        </div>
-      );
-    } else {
-      return <LoginButton />;
-    }
+          )}
+          
+        
+          </Col>
+        </Row>
+      </div>
+    );
   }
 }
 

@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
-import { PieChart, Pie, Cell } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
-const COLORS = ["#0088FE", "rgb(67,169,40)"];
+const COLORS = ["#0088FE", "#17c671"];
 
 export default class OccupancyChart extends PureComponent {
   render() {
@@ -10,7 +10,8 @@ export default class OccupancyChart extends PureComponent {
       { name: "Available", value: 50 - this.props.data.occupancy },
     ];
     return (
-      <PieChart width={500} height={100}>
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart width={200} height={80}>
         <Pie
           data={data}
           cx={100}
@@ -28,6 +29,8 @@ export default class OccupancyChart extends PureComponent {
           ))}
         </Pie>
       </PieChart>
+      </ResponsiveContainer>
+      
     );
   }
 }

@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import Dashboard from "./pages/Dashboard";
 import Landing from "./pages/Landing";
+import Test from "./pages/Test";
 import Capture from "./pages/Capture";
 
 export default function App() {
