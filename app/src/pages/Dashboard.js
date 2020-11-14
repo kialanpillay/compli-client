@@ -197,7 +197,7 @@ class Dashboard extends React.Component {
 
   render() {
     const { user } = this.props.auth0;
-    if (user !== null) {
+    if (user !== null ) {
       return (
         <div className="page">
           <Row style={{ width: "100%" }}>

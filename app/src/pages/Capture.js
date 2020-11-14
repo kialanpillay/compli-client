@@ -14,6 +14,7 @@ import Radio from "@material-ui/core/Radio";
 import Alert from "react-bootstrap/Alert";
 import CheckIcon from "@material-ui/icons/Check";
 import "./DailyCapture.css";
+import Sidebar from "../components/Sidebar";
 
 const symptomsData = [
   {
@@ -144,8 +145,12 @@ export default class Capture extends Component {
 
   render() {
     return (
-      <div className="p-Div" style={{ backgroundColor: "#212529" }}>
-        <Container>
+      <div className="p-Div" >
+        <Row>
+          <Col md={2}>
+          <Sidebar />
+          </Col>
+          <Col md={10}>
           <Tabs defaultActiveKey="capture" style={{ marginTop: "2rem" }}>
             <Tab eventKey="capture" title="Employee Screening">
               <div className="container u-form">
@@ -325,7 +330,8 @@ export default class Capture extends Component {
             </Tab>
             <Tab eventKey="healthCheck-capture" title="Employee Health"></Tab>
           </Tabs>
-        </Container>
+          </Col>
+          </Row>
       </div>
     );
   }
