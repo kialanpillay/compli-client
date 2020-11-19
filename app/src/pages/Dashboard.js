@@ -90,10 +90,10 @@ class Dashboard extends React.Component {
 
   sendNotification() {
     if (this.state.occupancy > 50) {
-      this.postNotification("Occupancy");
+      //this.postNotification("Occupancy");
     }
     if (this.state.profile.High > 20) {
-      this.postNotification("Risk");
+      //this.postNotification("Risk");
     }
   }
 

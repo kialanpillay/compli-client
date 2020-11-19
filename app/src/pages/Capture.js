@@ -166,7 +166,7 @@ export default class Capture extends Component {
       Number(this.state.empExposure) == 1 ||
       Number(this.state.empTravel) == 1
     ) {
-      this.postNotification("employee");
+      //this.postNotification("employee");
       return false;
     } else {
       return true;
